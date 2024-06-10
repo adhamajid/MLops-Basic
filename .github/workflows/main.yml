@@ -1,20 +1,16 @@
-# .github/workflows/main.yml
-name: CI/CD
+name: Docker Image CI
 
 on:
   push:
-    branches: [ master ]
+    branches: ["main"]
+  pull_request:
+    branches: ["main"]
 
 jobs:
   build:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v2
-
-    - name: Build Docker image
-      run: docker build -t myapp .
-
-    - name: Run Docker container
-      run: docker run myapp
+      - uses: actions/checkout@v4
+      - name: Build the Docker image
+        run: docker build . --file Dockerfile --tag my-image-name:$(date +%s)
